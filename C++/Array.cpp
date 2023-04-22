@@ -16,13 +16,52 @@ class Arrays
         int count();
         void edit(int,int);
         void insert(int,int);
+        void del(int);
+        int find(int);
+        void printarray();
+        ~Arrays();
         
+};
+void Arrays::printarray(){
+    int i;
+    for(i=0;i<count();i++){
+        cout<<get(i)<<" ";
+    }
+    cout<<endl;
+}
+int Arrays::find(int data){
+    int i;
+    for(i=0;i<=lastindex;i++){
+        if(ptr[i]==data){
+            return i;
+        }
+        cout<<"Arrays is Empty"<<endl;
+    }
+    return -1;
+}
+Arrays::~Arrays(){
+    delete[]ptr;
 }
 Arrays::Arrays(int cap)
 {
     capacity=cap;
     lastindex=-1;
     ptr= new int[capacity];
+}
+void Arrays::del(int index){
+    int i;
+    if(lastindex==-1){
+        cout<<"Arrays is Empty"<<endl;
+    }
+    else if(index<0 || index>lastindex){
+        cout<<"Invalid index"<<endl;
+    }
+    else{
+        for(i=index;i<lastindex;i++){
+            ptr[i]=ptr[i+1];
+        }
+        lastindex--;
+    }
 }
 void Arrays::append(int data)
 {
@@ -62,11 +101,26 @@ void Arrays::edit(int index,int data)
     }
 
 }
-void Arrays::insert(int index,int data)
-{
-    if(index>=0 && index<=lastindex)
-    {
-        ptr[index]=data;
+void Arrays::insert(int index,int data){
+    int i;
+    if(lastindex==capacity-1){
+        cout<<"Arrays is FuLL"<<endl;
     }
-    isFull();
+    else if(index<0 || index>lastindex+1){
+        cout<<"Invalid index"<<endl;
+    }
+    else{
+        for(i=lastindex;i>=index;i--){
+            ptr[i+1]=ptr[i];
+        }
+        ptr[index]=data;
+        lastindex++;
+    }
+}
+// Deriver program;
+int main(){
+    Arrays a(5);
+    a.append(25);
+    a.printarray();
+    return 0;
 }
